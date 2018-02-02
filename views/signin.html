@@ -1,0 +1,60 @@
+<div class="layout-main">
+	<div class="layout-content">
+		<div class="box oh">
+			
+			<div ng-hide="Issuccess">
+				<h2> <span class="fa fa-male"></span> Créer un compte Conser'storie </h2>
+				<p class="desc">
+					Merci d'utiliser Conser'storie. En créant un compte Conser'storie vous vous pourrez créer, modifier et commenter les user-stories.
+				</p>
+			<form >
+				<ul>
+
+					<li>
+						<label for "name"> Votre pseudo </label>
+						<input ng-model="newuser.username"  ng-blur="isunique(newuser.username)" id="name" type="text" placeholder="votre pseudo" required>
+						<span class="error"> {{ ctrl_username }} </span>
+					</li>
+
+					<li>
+						<label for "lastname"> Votre prenom </label>
+						<input ng-model="newuser.lastname" id="lastname" type="text" placeholder="votre prenom">
+					</li>
+
+					<li>
+						<label for "name"> Votre nom </label>
+						<input ng-model="newuser.name" id="name" type="text" placeholder="votre nom">
+					</li>
+
+
+					<li>
+						<label for "email"> Votre email </label>
+						<input ng-model="newuser.mail" id="email" type="text" placeholder="votre email" required>	
+					</li>
+
+					<li>
+						<label for "mdp"> Votre mot de passe </label>
+						<input ng-model="newuser.pass" required  id="mdp" type="text" placeholder="votre mot de passe">
+						
+						<span class="error"> {{ ctrl_pass }} </span>
+					</li>
+
+					<li>
+						<a href="login"  class=" btn secondary"> Retour </a>
+						<input  class="fr btn secondary" ng-class={disabled:unauthorized} type="submit" ng-disabled = " unauthorized" ng-click="register(newuser)" value="s'enregistrer">
+					</li>
+				</ul>
+				<div class="LoginBox-error {{state}}"> {{ error }} </div> 
+			</form>
+			</div>
+			<div class="message" ng-show="Issuccess">
+				 <h2><span class="fa fa-check"></span> Bravo !</h2>
+				 <p class="desc">
+					Votre enregistrement est validé. Vous disposez d'un compte utilisateur pour vous connecter.
+				</p>
+				 <i class="fa fa-check green" aria-hidden="true"></i> {{ message }} <br><br>
+				 <a href="login"> Cliquez ici pour vous connecter </a>
+			</div>
+		</div>
+	</div>
+</div>

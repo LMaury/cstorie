@@ -1,0 +1,40 @@
+<div class="Layout-main">
+		<div class="Layout-left">
+			{{ helper }} 
+		</div>
+		<div class="Layout-content">
+		<h1 class="fa fa-folder"> Projets</h1>
+		<div class='tips'><span class="fa fa-info">&nbsp;</span> {{info}} </div>
+		<input type="checkbox" id="New" class="btn new "   ng-model="ANewProjectBox" > <label class=" fa fa-plus" for="New" data-text=" + AJOUTER UN PROJET"></label>
+
+			<div class="Actionbox new fade" ng-show="ANewProjectBox">
+				<p>
+					<label>Nom du projet </label>
+					<input ng-model='Newproject.name' type='text'>
+				</p>
+				<p>
+					<label>Description du projet</label>
+					<input ng-model='Newproject.content' type='text'>
+				</p>
+				<p>
+					<input type='submit' class="btn fr " ng-click="addProject(Newproject);" value ="Ajouter projet" >
+				</p>
+			</div>
+
+		 <article ng-repeat="project in projects | orderBy:project.NBUS" class="list">
+		 	<ul>
+		 		<li Class="Project zoom">
+		 			<a href="userstories/project/{{project.name}}/">
+		 		  		<h2 class="Project-title">
+		 		  			{{ project.name }}
+		 		  		<span class="Project-count"> {{ project.NBUS }} US</span> 
+		 		  		</h2>
+		 		  		<p class="Project-content"> {{ project.content }} </p>
+		 		  </a>
+				</li>
+		 	</ul>
+		 </article>
+
+
+	</div>
+</div>

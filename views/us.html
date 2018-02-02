@@ -1,0 +1,194 @@
+<div  class="Layout-main">
+	<!--- LEFT COLUMN -->
+	<div class="Layout-left">
+		{{ helper }} 
+		<p>
+		<label class="fa fa-male"> Filtrer par user </label>
+		<select ng-model="search.first_name" >
+				<option ng-repeat="usonly in us | unique:'first_name' " value="{{ usonly.first_name }}">{{ usonly.first_name }} {{ usonly.name }}</option>
+		</select>
+		</p>
+		<p>
+		<label class="fa fa-tag"> Filtrer par projet </label>
+				<ul class="list" ng-repeat="(index ,usonly) in us | unique:'parentproject'" >
+					<li>
+						<input class="facets" id="{{ usonly.parentproject }}"  ng-model="filter[index]" value="{{ usonly.parentproject }}" type="checkbox" ng-click="toggle(usonly.parentproject)">  <Label for="{{ usonly.parentproject }}"> {{ usonly.parentproject }}</Label>
+					</li>
+				</ul>
+		</p>
+		<br>
+		
+	</div>
+	<div class="Layout-content">
+	<h1 class="fa fa-clone"> {{title}}</h1>
+	<div class='tips'><span class="fa fa-info">&nbsp;</span> {{info}} </div>
+
+	<span>{{ allus.length }} user stories affichées </span>
+
+	<!--START  Creer une nouvelle US  --> 
+	<input type="checkbox" id="New" class="btn new " ng-model="ANewUs" > <label class=" fa fa-plus" for="New" data-text="Créer une nouvelle user Storie"></label>
+	 	<div class="Actionbox new fade" ng-show="ANewUs">
+			<h2> Créer une nouvelle User-storie</h2>
+			<p 
+			hashelponp
+			help="Vous pouvez selectionner le projet rataché à l'user storie" 
+			class="Actionbox-line">
+				<label> Projet associée  </label>
+		        <select 
+		        
+		        id="parentproject"
+		        ng-model="NewUs.projectlist"
+		        >
+		        	<option ng-repeat="project in projectlist"   value="{{ project.id }}"> {{ project.name }}</option>
+		        </select></p>
+	        <p class="Actionbox-line">
+	        	<label for="content">Décrivez votre user storie : </label>
+	        	<textarea 
+	        		placeholder=" En tant que … , je souhaite/je veux ……, afin de ……" 
+	        		class="form-control" 
+	        		rows="5" 
+	        		hashelpontexarea
+	        		help="Une user storie décrit un scénario de validation d'une fonctionalité. Elle est structurée selon la structure suivante : En tant que  .... je veux …… afin de ....." 
+	        		id="content" 
+	        		ng-model="NewUs.description">
+	        	</textarea>
+	        </p>
+	        <p class="Actionbox-line">
+	        	<label for="content">Definissez des critères d'acceptations : </label>
+	        	<textarea 
+		        	class="form-control"
+		        	placeholder="Un acteur, un verbe - décrivant le comportement , des résultats observables ..."
+		        	rows="5" 
+		        	hashelpontexarea
+		        	help="Les critères d'acceptation d'une user storie sont un ensemble de conditions qui permettent de valider l'user storie. Un criitère est  structuré selon cette structure  : Un acteur, un verbe - décrivant le comportement , des résultats observables."
+		        	id="criteria" 
+		        	ng-model="NewUs.acceptation"
+	        	></textarea>
+	        </p>
+	        <p 
+	        class="Actionbox-priority"
+	        hashelponp
+	        help= " Définisez une priorité pour cette user storie" 
+	        >
+	        <label for="content">Définissez la priorité  </label>
+	        <select id="priority" ng-model="NewUs.priority">
+	        	<option>1</option>
+	        	<option>2</option>
+	        	<option>3</option>
+	        	<option>4</option>
+	        	<option>5</option>
+	        </select>
+	    </p>
+	    <button class="Actionbox-submit fr form-control btn btn-primary" ng-click="addUs(NewUs);">Creer une nouvelle user storie</button><br />
+	 </div>
+	 <!-- END Creer une nouvele US  --> 
+	 <!---START LIST OF US -->
+	 <article ng-repeat="usonly in allus = (us | orderBy:'-priority' | filter:search | multiplefilter:ProjectFiltered) " class="list">
+	 	
+	 	<table class="uscontainer zoom" ng-class="{edit:editorEnabled}">
+	 	<tr >
+	 		<td  class="uscontainer-s-title" colspan="3">
+	 			<span class="uscontainer-title fa fa-map-o">&nbsp; USER {{ usonly.id }}  </span>
+	 		</td>
+	 	</tr>
+	 	<tr>
+	 		<td class="uscontainer-s-meta" colspan="3">
+	 			<span class="uscontainer-user fa fa-male">&nbsp; {{ usonly.first_name }} {{ usonly.name }} </span>
+	 			<span class="uscontainer-tag fa fa-tag">&nbsp; {{ usonly.parentproject }}</span>
+	 		</td>
+	 	</tr>
+	 	<tr>
+		 	<td class="uscontainer-med">
+		 		<span class="uscontainer-label"> Description :</span>
+		 		<div ng-hide="editorEnabled">
+		 			<span class="uscontainer-description">{{ usonly.description }}</span>
+		 			</div>
+		 			 <div ng-show="editorEnabled">
+		 			 	<textarea class="form-control edited" rows="5" id="uddatecontent" ng-model="ClickedUs.description"></textarea></p>
+		 			 </div>
+		 	</td>
+		 	<td class="uscontainer-med uscontainer-acceptation">
+		 				<span class="uscontainer-label"> Critères d'acceptation :</span>
+		 				<div ng-hide="editorEnabled">
+				 			<span class="criteria" >{{usonly.acceptation}}</span>
+				 		 </div>
+				 		 <div ng-show="editorEnabled">
+				 			<textarea class="form-control edited" rows="5" id="uddatecriteria" ng-model="ClickedUs.acceptation"></textarea>
+				 		</div>
+		 	</td>
+		 	<td class="uscontainer-priority">	
+		 		<div ng-hide="editorEnabled">
+		 			<h2 class="priority" >{{usonly.priority}}</h2>
+		 		 </div>
+		 		 <div ng-show="editorEnabled">
+			 		<div class="ontop">
+			 			<label for ="updatepriority">Changer la priorité</label>
+				 		<select id="uddatepriority" ng-model="ClickedUs.priority">
+				        	<option>1</option>
+				        	<option>2</option>
+				        	<option>3</option>
+				        	<option>4</option>
+				        	<option>5</option>
+				        	<option>6</option>
+				        	<option>7</option>
+				        	<option>8</option>
+				        	<option>9</option>
+				        	<option>10</option>
+			        	</select>
+			        </div>
+	        	</div>
+		 	</td>
+
+		 </tr>
+	 	<tr>
+	 		<td colspan='3'>
+	 			<a class="uscontainer-commentcount fa fa-comment" ref="#" ng-click="getComments(usonly)">&nbsp;{{ usonly.commentcount }} commentaire(s)</a>
+	 		</td>
+	 	</tr>
+		 <tr>
+		 	<td>	
+		 		&nbsp;
+		 	</td>
+		 	<td class="uscontainer-action">	
+		 		<a href="#" class="uscontainer-button fa fa-trash" type="button" ng-click="deleteUs(usonly)">&nbsp;</a> 
+		 		<a href="#" class="uscontainer-button fa " 
+		 			ng-class="{undefined:'fa-pencil', 'fa-check':'fa-check', 'fa-pencil':'fa-pencil'}[usonly.modifyicon]"
+		 			href="#" 
+		 			ng-click="editorEnabled=!editorEnabled;editUs(usonly,editorEnabled)" 
+		 			alt= "{{ modifyicon }}">&nbsp;
+		 		</a>
+		 	</td>
+		 	<td> 	
+		 	</td>
+	 	</tr>
+
+	 	</table>
+	 </article>
+	 <!--- END LIST OF US -->
+	 <!--- START LIST OF COMMENT -->
+</div><!-- 'layout-content' -->
+	 <aside ng-controller="AsideCtrl" class='Layout-aside ' ng-class="{open: paneOpen}">
+	 <a href="" class="Layout-aside-close fa fa-times" ng-click="closeTab()"> &nbsp; </a> 
+	 <h1 class="fa fa-commenting"> Commentaires </h1>
+	 <div ng-repeat="comment in comments" class="Comment">
+	 			<span class='Comment-author'> {{ comment.first_name }} {{ comment.name }}</span>
+	 			<div class='Comment-text'>
+	 				<span class='Comment-date'> {{ comment.date }}</span>
+	 				<p class='Comment-content'> {{ comment.content }}</p>
+	 			</div>
+	 		</div>
+	 	<div class="Comment Comment-new oh ">
+	 				
+	 				<div class="Comment-new-id">
+	 					{{ CurrentUser.first_name }} {{ CurrentUser.name }}
+	 				</div>
+	 				<div class="Comment-new-input">
+	 					<form>
+	 						<input type="text" ng-model="NewComment.content">
+	 						<input class="Comment-new-submit btn fr " type="submit" value="Commenter" ng-click="addComment(NewComment)">
+	 					</form>
+	 				</div>
+	 		</div>
+	 </aside>
+
+</div> <!-- main -->

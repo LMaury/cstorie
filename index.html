@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Conserstorie v1.2</title>
+  <link rel="icon" href="Public/favicon.png" />  
+
+  <!--<script src="//code.angularjs.org/snapshot/angular.min.js"></script> <!-- Angular 1.6.8 -->
+  <!--<script src="//code.angularjs.org/snapshot/angular-route.min.js"></script> <!-- Ngroute Angular 1.6.8 -->
+  <script src="js/angular.min.js"></script> <!-- Local Angular 1.6.8 -->
+  <script src="js/angular-route.min.js"></script> <!-- Local Ngroute Angular 1.6.8 -->
+  <script src="js/lib/md5.min.js"></script> <!-- Md5encryption -->
+  <script src="js/lib/lightsticky.js"></script> <!-- Sticky Class-->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script> <!-- add tag filter like unique -->
+  <script src="js/angular-filter.min.js"></script> <!-- Local  Angular filter  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.8/angular-messages.min.js"></script> 
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular-mocks.js"></script>  <!--  Fake HTTP backend implementation suitable for unit testing applications that use the $http service. -->
+  <script src="index.js"></script>
+  <script src="controllers/route.js"></script>
+  <script src="controllers/services.js"></script>
+  <script src="controllers/controllers.js"></script>
+  <script src="controllers/directives.js"></script>
+  <link rel="stylesheet" type="text/css" href="Public/styles.css" media="all" />
+  <link rel="stylesheet" type="text/css" href="Public/font-awesome47/css/font-awesome.min.css" media="all" />
+   <base href="/conserstorie/conserstoriev05/">
+</head>
+<body ng-app="consertstorieApp" class="body">
+<div class="header">
+      <div class="Hero">
+    	<div class='Hero-header'>
+    	 	<h1><img class="Hero-logo" src="Public/favicon.png"> Conserstorie v{{ version }} </h1>
+    		<span class="Hero-subtitle">  {{baseline}}</span>
+    	</div>
+    </div>
+    <nav ng-controller="NavCtrl" class="nav {{mainclass}}" ng-class="{{mainclass}}">
+    	<ul>
+        <li> <a href="projects"> Projets </a></li>
+        <li> <a href="userstories"> Userstories </a></li>
+        <li> <a href="userstories/my/{{user_id}}"> Mes userstories  </a></li>
+        
+    	</ul>
+      <div class="nav-id fr"> 
+        <ul>
+          <li class="hello fa fa-user"> {{ user.first_name }} {{ user.name }}</li>
+          <li class="signout "> <a class="fa fa-user-times" href="#/login" ng-click="Signout()"> &nbsp; </a></li>
+      </ul>
+    </div>
+    </nav> 
+</div><!-- header -->
+<div ng-controller="MainCtrl" ng-class="{{isconnected}}">
+  <ng-view class="main "> 	</ng-view>
+</div>
+<footer class="footer">
+  <ul>
+    <li><a href="#"> Made with ♥ and Angular JS - Slim framework - MySql </a>
+    </li>
+  </ul>
+</footer>
+</body>
+</html>
+
